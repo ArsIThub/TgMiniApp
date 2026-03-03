@@ -7,7 +7,7 @@ using System.Text;
 
 public class WsPingClient : MonoBehaviour
 {
-    private ClientWebSocket _ws;
+    protected ClientWebSocket _ws;
 
     private async void Start()
     {
@@ -24,13 +24,13 @@ public class WsPingClient : MonoBehaviour
         Debug.Log(reply);
     }
 
-    private async Task SendText(string text)
+    protected async Task SendText(string text)
     {
         var bytes = Encoding.UTF8.GetBytes(text);
         await _ws.SendAsync(bytes, WebSocketMessageType.Text, true, CancellationToken.None);
     }
 
-    private async Task<string> RecieveText() 
+    protected async Task<string> RecieveText() 
     {
         var buffer = new byte[1024];
 
