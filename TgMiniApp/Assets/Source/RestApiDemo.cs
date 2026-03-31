@@ -8,15 +8,24 @@ using UnityEngine.UI;
 
 public class RestApiDemo : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField nameInput;
     [SerializeField] private TMP_InputField scoreInput;
     [Space]
     [SerializeField] private TextMeshProUGUI outputText;
+    [SerializeField] private TextMeshProUGUI playerNameText;
     [Space]
     [SerializeField] private Button scoreButton;
     [SerializeField] private Button leaderboardButton;
 
+    private string _telegramInitData;
+    private string _telegramUserName = "Unknown";
+    private bool _telegramReady;
+
     private const string _baseUrl = "http://localhost:3000";
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+    [DLLImport("__Internal")]
+    private static extern void InitTelegram();
+    #endif
 
     private void Awake()
     {
@@ -24,23 +33,48 @@ public class RestApiDemo : MonoBehaviour
         leaderboardButton.onClick.AddListener(GetLeaderBoard);
     }
 
+    private void Start()
+    {
+        #if UNITY_WEBGL && !UNITY_EDITOR
+        InitTelegram();
+        #else
+        ShowText("Init works only in WebGL");
+        #endif
+    }
+
+    private void SendTelegramInitData(string telegramInitData) 
+    {
+        _telegramInitData = telegramInitData;
+        _telegramReady = !string.IsNullOrEmpty(_telegramInitData);
+        ShowText($"Telegram init data: {_telegramInitData}");
+    }
+
+    private void SetTelegramUserName(string userName) 
+    {
+        _telegramUserName = userName;
+        playerNameText.text = _telegramUserName;
+    }
+
+    private void OnTelegramError(string error) 
+    {
+        ShowText($"Error: {error}");
+    }
+
     private void SendScore() 
     {
-        string playername = nameInput.text;
-
-        if (playername == "") 
+        if (!_telegramReady) 
         {
-            ShowText("Enter your name!");
+            ShowText("Telegram data is not ready");
             return;
         }
 
         if (!int.TryParse(scoreInput.text, out int score)) 
         {
-            ShowText("Score is invalid!");
+            ShowText("Error: score field is invalid");
             return;
         }
 
-        StartCoroutine(SaveScore(playername, score));
+        StartCoroutine(SaveScore(score));
     }
 
     private void GetLeaderBoard() 
@@ -48,14 +82,56 @@ public class RestApiDemo : MonoBehaviour
         StartCoroutine(RequestLeaderboard());
     }
 
-    private IEnumerator SaveScore(string name, int score) 
+    private void AuthTelegram() 
+    {
+        if (!_telegramReady) 
+        {
+            ShowText("Telegram data is not ready");
+            return;
+        }
+
+        StartCoroutine(AuthTelegramRoutine());
+    }
+
+    private IEnumerator AuthTelegramRoutine() 
+    {
+        string url = $"{_baseUrl}/auth/telegram";
+
+        TelegramAuthRequest requestData = new TelegramAuthRequest
+        {
+            initData = _telegramInitData,
+        };
+
+        string json = JsonUtility.ToJson(requestData);
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST")) 
+        {
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            ShowText("Sending auth");
+            yield return request.SendWebRequest();
+
+            if (request.result != UnityWebRequest.Result.Success) 
+            {
+                ShowText("Error: " + request.error);
+                yield break;
+            }
+
+            ShowText("Auth success: " + request.downloadHandler.text);
+        }
+    }
+
+    private IEnumerator SaveScore(int score) 
     {
         string url = $"{_baseUrl}/save-score";
 
-        SaveScoreRequest requestData = new SaveScoreRequest 
+        SaveScoreTelegramRequest requestData = new SaveScoreTelegramRequest 
         {
-            name = name,
-            score = score,
+            initData = _telegramInitData,
+            score = score
         };
 
         string json = JsonUtility.ToJson(requestData);
@@ -133,16 +209,22 @@ public class RestApiDemo : MonoBehaviour
 }
 
 [Serializable]
-public class SaveScoreRequest 
+public class TelegramAuthRequest 
 {
-    public string name;
+    public string initData;
+}
+
+[Serializable]
+public class SaveScoreTelegramRequest 
+{
+    public string initData;
     public int score;
 }
 
 [Serializable]
 public class PlayerData
 {
-    public int id;
+    public long telegramId;
     public string name;
     public int score;
 }
