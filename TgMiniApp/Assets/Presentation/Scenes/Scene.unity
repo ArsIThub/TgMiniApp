@@ -255,7 +255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &40066501
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1601,7 +1601,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893489586}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acc9b9e7db1b3ca439117750c2c26078, type: 3}
   m_Name: 
@@ -2625,7 +2625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1476155677
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3599,6 +3599,68 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724048838}
   m_CullTransparentMesh: 1
+--- !u!1 &1766795284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766795286}
+  - component: {fileID: 1766795285}
+  - component: {fileID: 1766795287}
+  m_Layer: 0
+  m_Name: WebApp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1766795285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766795284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ebb751b699d92c489bd286b3f9ef9ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TelegramWebApp
+--- !u!4 &1766795286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766795284}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 882.4363, y: 594.1153, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1766795287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766795284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb8d483be5d6a468f0c16a414c49a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AuthManager
+  playerNameText: {fileID: 0}
+  playerScoreText: {fileID: 0}
+  playerIdText: {fileID: 0}
+  statusText: {fileID: 0}
+  serverUrl: https://incompletely-nonburdensome-florrie.ngrok-free.dev
 --- !u!1 &1802722956
 GameObject:
   m_ObjectHideFlags: 0
@@ -4319,7 +4381,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1949161963}
-  - component: {fileID: 1949161964}
   m_Layer: 0
   m_Name: REST_api_worker
   m_TagString: Untagged
@@ -4342,23 +4403,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1949161964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949161962}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08f300454bb1be24ebb29c35e214cc24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RestApiDemo
-  scoreInput: {fileID: 91527379}
-  outputText: {fileID: 1480977947}
-  playerNameText: {fileID: 0}
-  scoreButton: {fileID: 20330782}
-  leaderboardButton: {fileID: 561153995}
 --- !u!1 &1973009657
 GameObject:
   m_ObjectHideFlags: 0
@@ -4918,3 +4962,4 @@ SceneRoots:
   - {fileID: 1635361072}
   - {fileID: 1949161963}
   - {fileID: 893489587}
+  - {fileID: 1766795286}

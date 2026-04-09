@@ -23,8 +23,8 @@ public class RestApiDemo : MonoBehaviour
     private const string _baseUrl = "http://localhost:3000";
 
     #if UNITY_WEBGL && !UNITY_EDITOR
-    [DLLImport("__Internal")]
-    private static extern void InitTelegram();
+    [DllImport("__Internal")]
+    private static extern string GetTelegramInitData();
     #endif
 
     private void Awake()
@@ -35,9 +35,9 @@ public class RestApiDemo : MonoBehaviour
 
     private void Start()
     {
-        #if UNITY_WEBGL && !UNITY_EDITOR
-        InitTelegram();
-        #else
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        GetTelegramInitData();
+    #else
         ShowText("Init works only in WebGL");
         #endif
     }
