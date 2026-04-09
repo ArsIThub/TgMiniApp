@@ -1,19 +1,19 @@
-using System.Runtime.InteropServices;
+//using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class TelegramWebApp : MonoBehaviour
 {
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+    [System.Runtime.InteropServices.DllImport("__Internal")]
     private static extern string GetTelegramInitData();
 
-    [DllImport("__Internal")]
+    [System.Runtime.InteropServices.DllImport("__Internal")]
     private static extern string GetTelegramUser();
 
-    [DllImport("__Internal")]
+    [System.Runtime.InteropServices.DllImport("__Internal")]
     private static extern void TelegramReady();
 
-    [DllImport("__Internal")]
+    [System.Runtime.InteropServices.DllImport("__Internal")]
     private static extern void TelegramExpand();
 #endif
 

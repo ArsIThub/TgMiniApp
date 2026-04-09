@@ -42,7 +42,7 @@ public class AuthManager : MonoBehaviour
 
     private void Start()
     {
-        telegramWebApp = FindObjectOfType<TelegramWebApp>();
+        telegramWebApp = FindFirstObjectByType<TelegramWebApp>();
 
         if (telegramWebApp == null)
         {
